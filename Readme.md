@@ -4,6 +4,7 @@
 **NutriRx** is a healthcare-focused AI application that leverages a fine-tuned language model (LLM) to extract and interpret doctor’s prescription PDFs. It provides personalized diet-based recommendations, helping patients align their daily food habits with their medical conditions.
 
 ✅ Achieved **91.3% accuracy** in classifying prescription content and generating valid food suggestions.
+⚠️ Ensure that model is running on the local machine
 
 ---
 
@@ -35,4 +36,5 @@ Identifies conditions & suggests foods
 ↓
 Returns in a structured  response
 ![Nutrix Final Output](templates/ouput.png)
+[model link](https://ollama.com/library/medllama2)
 
