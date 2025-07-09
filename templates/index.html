@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NutriRx - Upload Prescription</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>NutriRx</h1>
+        <p>Upload your prescription PDF to get personalized diet recommendations.</p>
+        <form id="uploadForm">
+            <input type="file" name="file" id="fileInput" accept=".pdf" required>
+            <button type="submit">Analyze</button>
+        </form>
+
+        <div id="loading" class="hidden">
+            <p>Processing your prescription... ⏳</p>
+        </div>
+
+        <div id="results" class="hidden">
+            <h2>Detected Condition: <span id="condition"></span></h2>
+
+            <h3>Foods to Include:</h3>
+            <ul id="foodsInclude"></ul>
+
+            <h3>Foods to Avoid:</h3>
+            <ul id="foodsAvoid"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const loadingDiv = document.getElementById('loading');
+            const resultsDiv = document.getElementById('results');
+
+            if (!fileInput.files.length) return;
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            loadingDiv.classList.remove('hidden');
+            resultsDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error("Server failed to process file");
+
+                const data = await response.json();
+
+                document.getElementById('condition').textContent = data.condition || "Unknown";
+
+                const includeList = document.getElementById('foodsInclude');
+                includeList.innerHTML = '';
+                (data.foods_to_include || []).forEach(item => {
+                    let li = document.createElement('li');
+                    li.textContent = item;
+                    includeList.appendChild(li);
+                });
+
+                const avoidList = document.getElementById('foodsAvoid');
+                avoidList.innerHTML = '';
+                (data.foods_to_avoid || []).forEach(item => {
+                    let li = document.createElement('li');
+                    li.textContent = item;
+                    avoidList.appendChild(li);
+                });
+
+                loadingDiv.classList.add('hidden');
+                resultsDiv.classList.remove('hidden');
+            } catch (err) {
+                loadingDiv.classList.add('hidden');
+                alert("Error: " + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
