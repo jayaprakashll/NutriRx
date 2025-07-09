@@ -34,3 +34,5 @@ Fine-tuned LLM analyzes content
 Identifies conditions & suggests foods
 ↓
 Returns in a structured  response
+![Nutrix Final Output](templates/ouput.png)
+
