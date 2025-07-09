@@ -17,7 +17,7 @@
 
 ## ⚙️ Tech Stack
 - **Backend:** Flask
-- **AI/NLP:** Transformers (Hugging Face) - fine-tuned healthcare model
+- **AI/NLP:** Medllama - fine-tuned healthcare model
 - **PDF Parsing:** pdfplumber, PyPDF2
 - **Language:** Python
 - **Deployment:** Docker, REST API
